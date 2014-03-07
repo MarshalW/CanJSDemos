@@ -1,10 +1,14 @@
 require.config({
     paths: {
-        jquery: 'jquery-2.1.0.min'
+        jquery: '/bower_components/jquery/dist/jquery.min',
+        can: '/bower_components/canjs/amd/can',
+        'can.fixture': '/bower_components/canjs/amd/can/util/fixture',
+        'can.ejs': '/bower_components/canjs/amd/can/view/ejs',
+        bootstrap:'/bower_components/bootstrap/dist/js/bootstrap.min'
     }
 });
 
-require(['can'], function (can) {
+require(['can', 'can.fixture', 'can.ejs'], function (can) {
     var Info = can.Model({
         findOne: 'GET /info/{id}',
         update: 'PUT /info/{id}'
@@ -48,11 +52,12 @@ require(['can'], function (can) {
         init: function (el, info) {
             this.render();
             var self = this;
-            Info.bind('updated', function (event,updated) {
-                if(updated.id==self.options.info.id){
+            Info.bind('updated', function (event, updated) {
+                if (updated.id == self.options.info.id) {
                     self.render();
                 }
             });
+//            $('button').addClass('btn btn-default');
         },
         render: function () {
             this.element.html(can.view('../views/form.ejs', this.options.info));
